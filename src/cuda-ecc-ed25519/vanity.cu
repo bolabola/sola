@@ -201,7 +201,7 @@ void vanity_run(config &vanity) {
 
 		// Print out performance Summary
 		std::chrono::duration<double> elapsed = finish - start;
-		printf("%s Iteration %d Attempts: %llu in %f at %fcps - Total Attempts %llu - keys found %d\n",
+		/*printf("%s Iteration %d Attempts: %llu in %f at %fcps - Total Attempts %llu - keys found %d\n",
 			getTimeStr().c_str(),
 			i+1,
 			executions_this_iteration, //(8 * 8 * 256 * 100000),
@@ -209,7 +209,7 @@ void vanity_run(config &vanity) {
 			executions_this_iteration / elapsed.count(),
 			executions_total,
 			keys_found_total
-		);
+		);*/
 
                 if ( keys_found_total >= STOP_AFTER_KEYS_FOUND ) {
                 	printf("Enough keys found, Done! \n");
