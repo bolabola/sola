@@ -389,12 +389,16 @@ void __global__ vanity_scan(curandState* state, int* keys_found, int* gpu, int* 
 		if(key[0]=='p'&&key[1]=='o'&&key[2]=='w'&&key[3] >= '1' && key[3] <= '9'&&key[4] >= '1' && key[4] <= '9'&&key[5] >= '1' && key[5] <= '9')
 		{
 
-				for(int i=6;i<1000000000;i++)
+				for(int i=6;i<10;i++)
 				{
 					bool found=false;
 						if (key[i] >= '1' && key[i] <= '9')
 						{
 							found=true;
+						}
+						else
+						{
+							break;
 						}
 
 					if(found)
