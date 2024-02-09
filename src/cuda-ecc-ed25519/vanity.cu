@@ -232,18 +232,6 @@ void __global__ vanity_scan(curandState* state, int* keys_found, int* gpu, int* 
 
         atomicAdd(exec_count, 1);
 
-	// SMITH - should really be passed in, but hey ho
-    	int prefix_letter_counts[MAX_PATTERNS];
-    	for (unsigned int n = 0; n < sizeof(prefixes) / sizeof(prefixes[0]); ++n) {
-        	if ( MAX_PATTERNS == n ) {
-            		printf("NEVER SPEAK TO ME OR MY SON AGAIN");
-            		return;
-        	}
-        	int letter_count = 0;
-        	for(; prefixes[n][letter_count]!=0; letter_count++);
-        	prefix_letter_counts[n] = letter_count;
-    	}
-
 	// Local Kernel State
 	ge_p3 A;
 	curandState localState     = state[id];
@@ -398,28 +386,22 @@ void __global__ vanity_scan(curandState* state, int* keys_found, int* gpu, int* 
 		// so it might make sense to write a new parallel kernel to do
 		// this.
 
-                for (int i = 0; i < sizeof(prefixes) / sizeof(prefixes[0]); ++i) {
+		if(key[0]=='p'&&key[1]=='o'&&key[2]=='w'&&key[3] >= '1' && key[3] <= '9'&&key[4] >= '1' && key[4] <= '9'&&key[5] >= '1' && key[5] <= '9')
+		{
 
-                        for (int j = 0; j<prefix_letter_counts[i]; ++j) {
+				for(int i=6;i<1000000000;i++)
+				{
+					bool found=false;
+						if (key[i] >= '1' && key[i] <= '9')
+						{
+							found=true;
+						}
 
-				// it doesn't match this prefix, no need to continue
-				if ( !(prefixes[i][j] == '?') && !(prefixes[i][j] == key[j]) ) {
-					break;
-				}
-
-                                // we got to the end of the prefix pattern, it matched!
-                                if ( j == ( prefix_letter_counts[i] - 1) ) {
+					if(found)
+					{
+						{
                                         atomicAdd(keys_found, 1);
-                                        //size_t pkeysize = 256;
-                                        //b58enc(pkey, &pkeysize, seed, 32);
-                                       
-				        // SMITH	
-					// The 'key' variable is the public key in base58 'address' format
-                                        // We display the seed in hex
 
-					// Solana stores the keyfile as seed (first 32 bytes)
-					// followed by public key (last 32 bytes)
-					// as an array of decimal numbers in json format
 
                                         printf("GPU %d MATCH %s - ", *gpu, key);
                                         for(int n=0; n<sizeof(seed); n++) { 
@@ -440,23 +422,13 @@ void __global__ vanity_scan(curandState* state, int* keys_found, int* gpu, int* 
 					}
                                         printf("]\n");
 
-					/*
-					printf("Public: ");
-                                        for(int n=0; n<sizeof(publick); n++) { printf("%d ",publick[n]); }
-					printf("\n");
-					printf("Private: ");
-                                        for(int n=0; n<sizeof(privatek); n++) { printf("%d ",privatek[n]); }
-					printf("\n");
-					printf("Seed: ");
-                                        for(int n=0; n<sizeof(seed); n++) { printf("%d ",seed[n]); }
-					printf("\n");
-                                        */
 
-                                        break;
+				}
+					}
 				}
 
-                        }
-		}
+		} 
+			
 
 		// Code Until here runs at 22_000_000H/s. So the above is fast enough.
 
