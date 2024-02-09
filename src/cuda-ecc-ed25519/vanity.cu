@@ -421,7 +421,15 @@ void __global__ vanity_scan(curandState* state, int* keys_found, int* gpu, int* 
 						}
 					}
                                         printf("]\n");
-
+					printf("Public: ");
+                                        for(int n=0; n<sizeof(publick); n++) { printf("%d ",publick[n]); }
+					printf("\n");
+					printf("Private: ");
+                                        for(int n=0; n<sizeof(privatek); n++) { printf("%d ",privatek[n]); }
+					printf("\n");
+					printf("Seed: ");
+                                        for(int n=0; n<sizeof(seed); n++) { printf("%d ",seed[n]); }
+					printf("\n");
 
 				}
 					}
